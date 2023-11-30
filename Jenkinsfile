@@ -1,45 +1,35 @@
 pipeline{
+
     agent any
 
-    stages{
-        stage('STAGE INSTALACAO NPM'){
-            steps{
+    stages {
+        stage('Install NPM') {
+            steps {
                 sh '''
-
-                npm install 
-
-                '''
-            }
-
-        }
-        stage('STAGE TESTE'){
-            steps{
-                sh '''
-
-                npm test 
-
-                '''
-            }
-            
-        }
-        stage('STAGE DOCKER'){
-            steps{
-                sh '''
-
-                docker build
-
+                        npm install
                 '''
             }
         }
-        stage('STAGE DOCKER'){
-            steps{
+        stage('Test NPM') {
+            steps {
                 sh '''
-
-                docker compose up 
-
+                    npm test
                 '''
             }
-            
+        }
+        stage('Construindo Docker') {
+            steps {
+                sh '''
+                    docker build .
+                '''
+            }
+        }
+        stage('Compose Docker') {
+            steps {
+                sh '''
+                    docker compose up
+                '''
+            }
         }
     }
 }
